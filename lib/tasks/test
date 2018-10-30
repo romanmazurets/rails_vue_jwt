@@ -1,0 +1,5 @@
+desc 'run tests'
+task :test do
+  ruby -Ilib:test test
+end
+
