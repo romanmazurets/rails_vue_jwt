@@ -2,9 +2,10 @@ class UsersController < ApplicationController
   def create
     user = User.new user_params
     if user.save
-      render json: {'action': 'done'}
+      token = Knock::AuthToken.new(payload: {sub: user.id}).token
+      render json: {jwt: token, user: user}, status: :created
     else
-      render json: {'action': 'wrong'}
+      render json: {errors: user.errors.full_messages}, status: :conflict
     end
   end
 
